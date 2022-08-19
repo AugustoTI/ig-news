@@ -1,9 +1,12 @@
-$white: #fff;
-$gray-100: #e1e1e6;
-$gray-300: #a8a8b3;
-$gray-900: #121414;
-$cyan-500: #61dcfb;
-$yellow-500: #eba417;
+:root {
+  --white: #fff;
+  --gray-100: #e1e1e6;
+  --gray-300: #a8a8b3;
+  --gray-800: #2f2f33;
+  --gray-900: #121414;
+  --cyan-500: #61dcfb;
+  --yellow-500: #eba417;
+}
 
 * {
   margin: 0;
@@ -24,8 +27,8 @@ $yellow-500: #eba417;
 }
 
 body {
-  background: $gray-900;
-  color: $white;
+  background: var(--gray-900);
+  color: var(--white);
 }
 
 body,
