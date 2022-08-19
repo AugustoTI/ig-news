@@ -11,10 +11,10 @@
 
   display: flex;
   align-items: center;
-  gap: 5rem;
 
   nav {
     height: 100%;
+    margin-left: 5rem;
 
     a {
       display: inline-block;
@@ -40,5 +40,9 @@
         left: 0;
       }
     }
+  }
+
+  button {
+    margin-left: auto;
   }
 }
