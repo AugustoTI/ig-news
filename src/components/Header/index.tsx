@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import { SingInButton } from '../SingInButton';
 import styles from './styles.module.scss';
 
@@ -7,8 +8,10 @@ export const Header = () => {
       <div className={styles.header}>
         <img src="/logo.svg" alt="ig.news" />
         <nav>
-          <a className={styles.active}>Home</a>
-          <a>Posts</a>
+          <Link href="/" className={styles.active}>
+            Home
+          </Link>
+          <Link href="/posts">Posts</Link>
         </nav>
         <SingInButton />
       </div>
