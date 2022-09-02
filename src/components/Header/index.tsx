@@ -1,4 +1,5 @@
-import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { ActiveLink } from '../ActiveLink';
 import { SingInButton } from '../SingInButton';
 import styles from './styles.module.scss';
 
@@ -8,10 +9,12 @@ export const Header = () => {
       <div className={styles.header}>
         <img src="/logo.svg" alt="ig.news" />
         <nav>
-          <Link href="/" className={styles.active}>
-            Home
-          </Link>
-          <Link href="/posts">Posts</Link>
+          <ActiveLink activeClassName={styles.active} href="/">
+            <a>Home</a>
+          </ActiveLink>
+          <ActiveLink activeClassName={styles.active} href="/posts">
+            <a>Posts</a>
+          </ActiveLink>
         </nav>
         <SingInButton />
       </div>
