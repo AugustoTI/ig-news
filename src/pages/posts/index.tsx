@@ -2,6 +2,7 @@ import * as Prismic from '@prismicio/client';
 import * as PrismicH from '@prismicio/helpers';
 import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
+import Link from 'next/link';
 import { getPrismicClient } from '../../services/prismic';
 import styles from './styles.module.scss';
 
@@ -26,11 +27,13 @@ const Posts: NextPage<PostsProps> = ({ posts }) => {
         <ul className={styles.posts}>
           {posts.map(({ title, excerpt, slug, updatedAt }) => (
             <li key={slug}>
-              <a href="">
-                <time>{updatedAt}</time>
-                <strong>{title}</strong>
-                <p>{excerpt}</p>
-              </a>
+              <Link href={`posts/${slug}`}>
+                <a>
+                  <time>{updatedAt}</time>
+                  <strong>{title}</strong>
+                  <p>{excerpt}</p>
+                </a>
+              </Link>
             </li>
           ))}
         </ul>
