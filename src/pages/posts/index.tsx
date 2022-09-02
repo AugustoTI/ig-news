@@ -1,8 +1,22 @@
-import { NextPage } from 'next';
+import * as Prismic from '@prismicio/client';
+import * as PrismicH from '@prismicio/helpers';
+import { GetStaticProps, NextPage } from 'next';
 import Head from 'next/head';
+import { getPrismicClient } from '../../services/prismic';
 import styles from './styles.module.scss';
 
-const Posts: NextPage = () => {
+type Post = {
+  slug: string;
+  title: string;
+  excerpt: string;
+  updatedAt: string;
+};
+
+interface PostsProps {
+  posts: Post[];
+}
+
+const Posts: NextPage<PostsProps> = ({ posts }) => {
   return (
     <>
       <Head>
@@ -10,55 +24,53 @@ const Posts: NextPage = () => {
       </Head>
       <main className={styles.container}>
         <ul className={styles.posts}>
-          <li>
-            <a href="#">
-              <time>12 de março de 2021</time>
-              <strong>What Is React and How to Master It?</strong>
-              <p>
-                React is a JavaScript library for creating user interfaces.
-                First up, note that React is a library and not a framework,
-                though it&apos;s often referred to as one. This is because it
-                doesn&apos;t create any sort of &quot;scaffold&quot; for the
-                project. That means that this library alone is generally not
-                enough to complete a project. Indeed, React developers often
-                create apps using extra tools like Redux, TypeScript, and Jest.
-              </p>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <time>12 de março de 2021</time>
-              <strong>What Is React and How to Master It?</strong>
-              <p>
-                React is a JavaScript library for creating user interfaces.
-                First up, note that React is a library and not a framework,
-                though it&apos;s often referred to as one. This is because it
-                doesn&apos;t create any sort of &quot;scaffold&quot; for the
-                project. That means that this library alone is generally not
-                enough to complete a project. Indeed, React developers often
-                create apps using extra tools like Redux, TypeScript, and Jest.
-              </p>
-            </a>
-          </li>
-          <li>
-            <a href="#">
-              <time>12 de março de 2021</time>
-              <strong>What Is React and How to Master It?</strong>
-              <p>
-                React is a JavaScript library for creating user interfaces.
-                First up, note that React is a library and not a framework,
-                though it&apos;s often referred to as one. This is because it
-                doesn&apos;t create any sort of &quot;scaffold&quot; for the
-                project. That means that this library alone is generally not
-                enough to complete a project. Indeed, React developers often
-                create apps using extra tools like Redux, TypeScript, and Jest.
-              </p>
-            </a>
-          </li>
+          {posts.map(({ title, excerpt, slug, updatedAt }) => (
+            <li key={slug}>
+              <a href="">
+                <time>{updatedAt}</time>
+                <strong>{title}</strong>
+                <p>{excerpt}</p>
+              </a>
+            </li>
+          ))}
         </ul>
       </main>
     </>
   );
+};
+
+export const getStaticProps: GetStaticProps = async () => {
+  const prismic = getPrismicClient();
+
+  const response = await prismic.get({
+    predicates: [Prismic.predicate.at('document.type', 'post')],
+    fetch: ['data.title', 'data.content'],
+    pageSize: 10,
+  });
+
+  const posts = response.results.map((post) => {
+    return {
+      slug: post.uid,
+      title: PrismicH.asText(post.data.title),
+      excerpt:
+        post.data.content.find((content: any) => content.type === 'paragraph')
+          ?.text ?? '',
+      updatedAt: new Date(post.last_publication_date).toLocaleDateString(
+        'pt-BR',
+        {
+          day: '2-digit',
+          month: 'long',
+          year: 'numeric',
+        },
+      ),
+    };
+  });
+
+  return {
+    props: {
+      posts,
+    },
+  };
 };
 
 export default Posts;
