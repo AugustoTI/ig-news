@@ -2,8 +2,7 @@
   max-width: 1120px;
   margin: 0 auto;
   padding: 0 2rem;
-  height: calc(100vh - 5rem);
-
+  min-height: calc(100vh - 5rem);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -20,7 +19,7 @@
   h1 {
     font-size: 4.5rem;
     line-height: 4.5rem;
-    font-family: 900;
+    font-weight: 900;
     margin-top: 2.5rem;
 
     span {
@@ -41,5 +40,54 @@
 
   button {
     margin-top: 2.5rem;
+  }
+}
+
+@media (max-width: 900px) {
+  .sectionContainer {
+    flex-direction: column;
+    padding: 2rem;
+    gap: 2rem;
+
+    img {
+      height: 28.125rem;
+    }
+  }
+
+  .hero {
+    text-align: center;
+
+    h1 {
+      font-size: 3.8rem;
+      margin-top: 1rem;
+    }
+
+    p {
+      margin-top: 1.2rem;
+    }
+
+    button {
+      margin: 1.5rem auto 0;
+    }
+  }
+}
+
+@media (max-width: 500px) {
+  .sectionContainer {
+    img {
+      height: 25rem;
+    }
+  }
+
+  .hero {
+    h1 {
+      font-size: 2.5rem;
+      line-height: 1.12;
+      margin-top: 1rem;
+    }
+
+    p {
+      font-size: 1.12rem;
+    }
   }
 }
