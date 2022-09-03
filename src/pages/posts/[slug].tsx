@@ -60,7 +60,7 @@ export const getServerSideProps: GetServerSideProps = async ({
     title: PrismicH.asText(response.data.title),
     content: PrismicH.asHTML(response.data.content),
     updatedAt: new Date(response.last_publication_date).toLocaleDateString(
-      'pt-BR',
+      'en-US',
       {
         day: '2-digit',
         month: 'long',

@@ -1,6 +1,7 @@
 import * as Prismic from '@prismicio/client';
 import * as PrismicH from '@prismicio/helpers';
 import { GetStaticProps, NextPage } from 'next';
+import { useSession } from 'next-auth/react';
 import Head from 'next/head';
 import Link from 'next/link';
 import { getPrismicClient } from '../../services/prismic';
@@ -18,6 +19,8 @@ interface PostsProps {
 }
 
 const Posts: NextPage<PostsProps> = ({ posts }) => {
+  const { data: session } = useSession();
+
   return (
     <>
       <Head>
@@ -27,7 +30,13 @@ const Posts: NextPage<PostsProps> = ({ posts }) => {
         <ul className={styles.posts}>
           {posts.map(({ title, excerpt, slug, updatedAt }) => (
             <li key={slug}>
-              <Link href={`posts/${slug}`}>
+              <Link
+                href={
+                  session?.activeSubscription
+                    ? `posts/${slug}`
+                    : `posts/preview/${slug}`
+                }
+              >
                 <a>
                   <time>{updatedAt}</time>
                   <strong>{title}</strong>
@@ -59,7 +68,7 @@ export const getStaticProps: GetStaticProps = async () => {
         post.data.content.find((content: any) => content.type === 'paragraph')
           ?.text ?? '',
       updatedAt: new Date(post.last_publication_date).toLocaleDateString(
-        'pt-BR',
+        'en-US',
         {
           day: '2-digit',
           month: 'long',
