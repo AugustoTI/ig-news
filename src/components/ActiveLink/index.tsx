@@ -4,22 +4,24 @@ import { ReactElement, cloneElement } from 'react';
 
 interface ActiveLinkProps extends LinkProps {
   children: ReactElement;
-  activeClassName: string;
+  activeClassName?: string;
+  className?: string;
 }
 
 export const ActiveLink = ({
   children,
-  activeClassName,
+  activeClassName = '',
+  className = '',
   ...props
 }: ActiveLinkProps) => {
   const { asPath } = useRouter();
 
-  const className = asPath === props.href ? activeClassName : '';
+  const newClassName = asPath === props.href ? activeClassName : '';
 
   return (
     <Link {...props}>
       {cloneElement(children, {
-        className,
+        className: className + ` ${newClassName}`,
       })}
     </Link>
   );
