@@ -1,4 +1,3 @@
-import { useRouter } from 'next/router';
 import { ActiveLink } from '../ActiveLink';
 import { SingInButton } from '../SingInButton';
 import styles from './styles.module.scss';
